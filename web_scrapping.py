@@ -1,8 +1,4 @@
 
-
-#TODO: 1) Web scraped data from Internet using APIS
-    # 1.1) Scrape numeric data using the APIS
-    #COINGECKO
 from cgitb import text
 from time import time
 from unittest import result
@@ -12,8 +8,9 @@ import requests
 import json
 import os
 
-#current Bitcoin price
+
 def get_Bitcoin_price():
+    #current Bitcoin price
     coins1 = requests.get("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd").text
     coins = json.loads(coins1)
     price = int(coins["bitcoin"]["usd"])
@@ -25,15 +22,16 @@ def get_Bitcoin_price():
     coins3 = json.loads(coins2) # dictionary containing all the prices from 1/1/18 till now in json format
     UNIX_date = (coins3["prices"][0][0])/1000 #UNIX time needed in seconds so converts from milliseconds to second
     print(datetime.fromtimestamp(int(UNIX_date)).strftime('%Y-%m-%d %H:%M:%S')) #date in specific format obtained
-#TODO: get all prices printed along with corresponding date
+
 
 #---------------------------------------------------------------------------------------------------------------------------------
 
 # 2) Scrape from articles key data using the Beautiful Soup from the Websites:CryptoNews.com, CoinMarketCal.com
 
-# Scraping from CoinMarketCal 
-# Have to disguise the request as being sent from Firefox otherwise will get error. Website has security features to prevent this.
 def CoinMarketCal():
+# Scraping from CoinMarketCal
+# Have to disguise the request as being sent from Firefox otherwise will get error. Website has security features to prevent this.
+
     from urllib.request import Request, urlopen
     from bs4 import BeautifulSoup as soup
     url = 'https://coinmarketcal.com/en/news/microstrategy-buys-an-additional-190-million-worth-of-bitcoin'
@@ -41,44 +39,33 @@ def CoinMarketCal():
 
     webpage = urlopen(req).read()
     page_soup = soup(webpage, "html.parser")
-    print(page_soup.prettify())
+    textArray1 = []
+    for paragraph in page_soup.find_all("p") :
+        textArray1.append(paragraph.text)
+        #print(paragraph.text)
+    return textArray1
 
-#Scraping from CryptoNews
-def CryptoNew1():
+
+def CryptoNew():
+#Scraping from CryptoNews. The scrapping is not perfect ao it needs refining.
+
     from urllib.request import Request, urlopen
     from bs4 import BeautifulSoup as soup
     url = 'https://cryptonews.com/news/bitcoin-and-ethereum-reverse-gains-doge-outperforms.htm'
     result = requests.get(url)
     doc = BeautifulSoup(result.text, "html.parser")
-    print(doc.prettify()) 
+
+    textArray1 = []
+    for paragraph in doc.find_all("p") :
+        textArray1.append(paragraph.text)
+        print(paragraph.text)
+    return textArray1
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def CryptoNew1():
 # Scraping from CryptoNews
 # Part of website is rendered in Javascript so cant use Beautiful soup just yet. Need to use Selenium first.
-def CryptoNew1():
+
     from selenium import webdriver
     import time
 
@@ -101,14 +88,50 @@ def CryptoNew1():
     print(soup.prettify())
 
 
-CoinMarketCal()
+
+#CoinMarketCal()
 #CryptoNew()
 
+#-------Connor Code---------------------------------------
+from transformers import pipeline
+from pyparsing.core import Each
+
+#This function performs sentiment analysis. What do we do with the results of this functions? Also does Connor need the scraped data so
+# it can be fed to the model?
+def sentiment(textArray):
+  neut = 0
+  pos = 0
+  neg = 0
+  for each in textArray:
+     tex = sentiment_analysis(each)[0]
+     if tex['label'] == "neutral":
+        neut = neut + 1
+     if tex['label'] == "positive":
+        pos = pos + 1
+     if tex['label'] == "negative":
+        neg = neg + 1
+
+  return([pos, neg, neut])
+
+#Allocate a pipeline for sentiment-analysis
+sentiment_analysis = pipeline("sentiment-analysis",model='ProsusAI/finbert')
 #----------------------------------------------
-#from transformers import pipeline
 
-# Allocate a pipeline for sentiment-analysis
-#classifier = pipeline('sentiment-analysis')
-#classifier('We are very happy to introduce pipeline to the transformers repository.')
-#[{'label': 'POSITIVE', 'score': 0.9996980428695679}]
+# sentiment analysis on CoinMarket
+text1 = CoinMarketCal()
+result1 = sentiment(text1)
+print(result1[0])
+print(result1[1])
+print(result1[2])
 
+#sentiment analysis in Crypto News
+print('----------------------')
+
+text2 = CryptoNew()
+result2 = sentiment(text2)
+print(result2[0])
+print(result2[1])
+print(result2[2])
+
+#TODO: Refine the text scraping. We need to discuss if we can use Selenium to automate the grabbing of
+#       articles periodically.
