@@ -43,9 +43,42 @@ def CoinMarketCal():
     page_soup = soup(webpage, "html.parser")
     print(page_soup.prettify())
 
+#Scraping from CryptoNews
+def CryptoNew1():
+    from urllib.request import Request, urlopen
+    from bs4 import BeautifulSoup as soup
+    url = 'https://cryptonews.com/news/bitcoin-and-ethereum-reverse-gains-doge-outperforms.htm'
+    result = requests.get(url)
+    doc = BeautifulSoup(result.text, "html.parser")
+    print(doc.prettify()) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Scraping from CryptoNews
 # Part of website is rendered in Javascript so cant use Beautiful soup just yet. Need to use Selenium first.
-def CryptoNew():
+def CryptoNew1():
     from selenium import webdriver
     import time
 
@@ -62,11 +95,20 @@ def CryptoNew():
     print("hello5")
     page_source = driver.page_source
     print("hello6")
-    print(page_source)
+    #print(page_source)
     print("hello7")
-    #soup = BeautifulSoup(page_source, 'html.parser')
-    #print(soup.prettify())
+    soup = BeautifulSoup(page_source, 'html.parser')
+    print(soup.prettify())
 
 
-#CoinMarketCal()
-CryptoNew()
+CoinMarketCal()
+#CryptoNew()
+
+#----------------------------------------------
+#from transformers import pipeline
+
+# Allocate a pipeline for sentiment-analysis
+#classifier = pipeline('sentiment-analysis')
+#classifier('We are very happy to introduce pipeline to the transformers repository.')
+#[{'label': 'POSITIVE', 'score': 0.9996980428695679}]
+
