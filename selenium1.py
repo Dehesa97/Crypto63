@@ -31,17 +31,24 @@ def selenium_CoinTelegraph():
     #print(soup.prettify())
 
     #Looks for articles published in the previous day so if its 12/2/2022 it will look for articles published on 11/2/2022
+    for dt in soup.select('time.post-card-inline__date'):
+     date_time =dt.get('datetime')
+     print(date_time)
+    
+    
+    
+    
     articles = soup.find_all("article")
     #print(articles)
-    for article in articles:
-        print("--------------------------------")
-        #print(article.prettify())
+   # for article in articles:
+    #    print("--------------------------------")
+     #   #print(article.prettify())
         #date_posted = article.find("class")
         #print(date_posted)
-        if article.has_attr('datetime'):
-            print(article['datetime'])
-        else:
-            print('no attribute present')
+      #  if article.has_attr('datetime'):
+       #     print(article['datetime'])
+        ##else:
+          #  print('no attribute present')
         
 
 
