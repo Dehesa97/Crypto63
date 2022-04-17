@@ -35,14 +35,16 @@ def CoinMarketCal():
     from urllib.request import Request, urlopen
     from bs4 import BeautifulSoup as soup
     url = 'https://coinmarketcal.com/en/news/microstrategy-buys-an-additional-190-million-worth-of-bitcoin'
+    #url = 'https://coinmarketcal.com/en/news/bitcoin-2022-loses-some-evangelical-luster-as-crypto-goes-mainstream'
     req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
 
     webpage = urlopen(req).read()
     page_soup = soup(webpage, "html.parser")
+    page = page_soup.find(attrs={"class" : "my-4 news-content"})
     textArray1 = []
-    for paragraph in page_soup.find_all("p") :
+    for paragraph in page.find_all("p") :
         textArray1.append(paragraph.text)
-        #print(paragraph.text)
+        print(paragraph.text)
     return textArray1
 
 
@@ -54,9 +56,9 @@ def CryptoNew():
     url = 'https://cryptonews.com/news/bitcoin-and-ethereum-reverse-gains-doge-outperforms.htm'
     result = requests.get(url)
     doc = BeautifulSoup(result.text, "html.parser")
-
+    page = doc.find(attrs={"class" : "article-single__content category_contents_details"})
     textArray1 = []
-    for paragraph in doc.find_all("p") :
+    for paragraph in page.find_all("p") :
         textArray1.append(paragraph.text)
         print(paragraph.text)
     return textArray1
@@ -89,8 +91,23 @@ def CryptoNew1():
 
 
 
-#CoinMarketCal()
-#CryptoNew()
+def CoinTelegraph():
+# Scraping from CoinTelegraph
+# Have to disguise the request as being sent from Firefox otherwise will get error. Website has security features to prevent this.
+
+    from urllib.request import Request, urlopen
+    from bs4 import BeautifulSoup as soup
+    url = 'https://cointelegraph.com/news/bitcoin-holds-40k-over-easter-but-thin-liquidity-capitulation-risk-haunt-traders'
+    req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
+
+    webpage = urlopen(req).read()
+    page_soup = soup(webpage, "html.parser")
+    page = page_soup.find(attrs={"class" : "post post-page__article"})
+    textArray1 = []
+    for paragraph in page.find_all("p") :
+        textArray1.append(paragraph.text)
+        print(paragraph.text)
+    return textArray1
 
 #-------Connor Code---------------------------------------
 from transformers import pipeline
@@ -118,20 +135,30 @@ sentiment_analysis = pipeline("sentiment-analysis",model='ProsusAI/finbert')
 #----------------------------------------------
 
 # sentiment analysis on CoinMarket
-text1 = CoinMarketCal()
-result1 = sentiment(text1)
-print(result1[0])
-print(result1[1])
-print(result1[2])
+#text1 = CoinMarketCal()
+#result1 = sentiment(text1)
+#print(result1[0])
+#print(result1[1])
+#print(result1[2])
 
 #sentiment analysis in Crypto News
-print('----------------------')
+#print('----------------------')
 
-text2 = CryptoNew()
-result2 = sentiment(text2)
-print(result2[0])
-print(result2[1])
-print(result2[2])
+#text2 = CryptoNew()
+#result2 = sentiment(text2)
+#print(result2[0])
+#print(result2[1])
+#print(result2[2])
+
+
+#sentiment analysis in Coin Telegraph
+#print('----------------------')
+
+text3 = CoinTelegraph()
+result3 = sentiment(text3)
+print(result3[0])
+print(result3[1])
+print(result3[2])
 
 #TODO: Refine the text scraping. We need to discuss if we can use Selenium to automate the grabbing of
 #       articles periodically.
