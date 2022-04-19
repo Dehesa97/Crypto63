@@ -30,6 +30,7 @@ def selenium_CoinTelegraph():
     soup = BeautifulSoup(page_source, 'html.parser')
     #print(soup.prettify())
 
+<<<<<<< Updated upstream
     #Looks for articles published in the previous day so if its 12/2/2022 it will look for articles published on 11/2/2022
     for dt in soup.select('time.post-card-inline__date'):
      date_time =dt.get('datetime')
@@ -39,6 +40,46 @@ def selenium_CoinTelegraph():
     
     
     articles = soup.find_all("article")
+=======
+    #Looks for articles published on the very same day so if its 12/2/2022 it will look for articles published on 11/2/2022.
+    today = date.today()
+    d = today.strftime("%Y-%m-%d")
+    page = soup.find(attrs={"class" : "post-card-inline__header"})
+
+    # Iterates through all the articles and their dates and find which were published on this day.
+    count = 0
+    for dt in soup.select('time.post-card-inline__date') :
+      date_time = dt.get('datetime')
+      if (date_time == d):
+       count = count + 1
+       #print(date_time)
+
+    # Takes the url links of the articles taken today and they are passed to the 'CoinTelegraph' functions and performs
+    # sentiment analysis on them.
+
+    count2 = 0
+    prefab = 'https://cointelegraph.com'
+    for dt in soup.select('a.post-card-inline__figure-link'):
+        if(count2 < count):
+            url = dt.get('href')
+            count2 = count2 + 1
+            #print(url)
+            final_url = prefab + url
+            #print(final_url)
+            text3 = CoinTelegraph(final_url)
+            result3 = sentiment(text3)
+            print(result3[0])
+            print(result3[1])
+            print(result3[2])
+
+
+
+
+
+
+
+    #articles = soup.find_all("article")
+>>>>>>> Stashed changes
     #print(articles)
    # for article in articles:
     #    print("--------------------------------")
