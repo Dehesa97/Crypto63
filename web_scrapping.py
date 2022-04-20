@@ -91,13 +91,13 @@ def CryptoNew1():
 
 
 
-def CoinTelegraph():
+def CoinTelegraph(url):
 # Scraping from CoinTelegraph
 # Have to disguise the request as being sent from Firefox otherwise will get error. Website has security features to prevent this.
 
     from urllib.request import Request, urlopen
     from bs4 import BeautifulSoup as soup
-    url = 'https://cointelegraph.com/news/bitcoin-holds-40k-over-easter-but-thin-liquidity-capitulation-risk-haunt-traders'
+    #url = 'https://cointelegraph.com/news/bitcoin-holds-40k-over-easter-but-thin-liquidity-capitulation-risk-haunt-traders'
     req = Request(url , headers={'User-Agent': 'Mozilla/5.0'})
 
     webpage = urlopen(req).read()
@@ -154,11 +154,11 @@ sentiment_analysis = pipeline("sentiment-analysis",model='ProsusAI/finbert')
 #sentiment analysis in Coin Telegraph
 #print('----------------------')
 
-text3 = CoinTelegraph()
-result3 = sentiment(text3)
-print(result3[0])
-print(result3[1])
-print(result3[2])
+#text3 = CoinTelegraph()
+#result3 = sentiment(text3)
+#print(result3[0])
+#print(result3[1])
+#print(result3[2])
 
 #TODO: Refine the text scraping. We need to discuss if we can use Selenium to automate the grabbing of
 #       articles periodically.
