@@ -67,24 +67,70 @@ def selenium_CoinTelegraph():
 
 
 
+def selenium_CryptoNews():
+
+    current_date = datetime.today().strftime('%Y-%m-%d')
+
+    #Point to the location of the chrome.exe file
+    options = webdriver.ChromeOptions()
+    options.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+
+    #Point to the location of the chromedriver.exe file
+    PATH = r"C:\Users\Andre\Downloads\chromedriver_win32\chromedriver.exe"
+    driver = webdriver.Chrome(chrome_options = options, executable_path =PATH)
+
+    driver.maximize_window()
+
+    driver.get("https://cryptonews.com/news/bitcoin-news/")
+    time.sleep(10)
+
+    page_source = driver.page_source
+    soup = BeautifulSoup(page_source, 'html.parser')
+    #print(soup.prettify())
+
+    #Looks for articles published on the very same day so if its 12/2/2022 it will look for articles published on 11/2/2022.
+    today = date.today()
+    d = today.strftime("%Y-%m-%d")
+    print(d)
+    page = soup.find(attrs={"class" : "category_contents_details"})
+    print('--------------------------------------')
+    print(page.text)
+
+    # Iterates through all the articles and their dates and find which were published on this day.
+    count = 0
+    for dt in page.select('div.article__badge-date') :
+      date_time = dt.get('data-utctime')
+      date2 = date_time[:10]
+      #print(date2)
+      if (date2 == d):
+       count = count + 1
+       print(date2)
+
+    # Takes the url links of the articles taken today and they are passed to the 'CoinTelegraph' functions and performs
+    # sentiment analysis on them.
+
+    count2 = 0
+    prefab = 'https://cointelegraph.com'
+    for dt in soup.select('a.post-card-inline__figure-link'):
+        if(count2 < count):
+            url = dt.get('href')
+            count2 = count2 + 1
+            #print(url)
+            final_url = prefab + url
+            #print(final_url)
+            text3 = CoinTelegraph(final_url)
+            result3 = sentiment(text3)
+            print(result3[0])
+            print(result3[1])
+            print(result3[2])
 
 
 
 
-    #articles = soup.find_all("article")
-#>>>>>>> Stashed changes
-    #print(articles)
-   # for article in articles:
-    #    print("--------------------------------")
-     #   #print(article.prettify())
-        #date_posted = article.find("class")
-        #print(date_posted)
-      #  if article.has_attr('datetime'):
-       #     print(article['datetime'])
-        ##else:
-          #  print('no attribute present')
+
 
 
 
 #--------------------------------------
-selenium_CoinTelegraph()
+#selenium_CoinTelegraph()
+selenium_CryptoNews()
