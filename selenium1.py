@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from datetime import datetime
 from web_scrapping import CoinTelegraph
+from web_scrapping import CryptoNew
 from web_scrapping import sentiment
 from datetime import date
 
@@ -104,21 +105,21 @@ def selenium_CryptoNews():
       #print(date2)
       if (date2 == d):
        count = count + 1
-       print(date2)
+       #print(date2)
 
     # Takes the url links of the articles taken today and they are passed to the 'CoinTelegraph' functions and performs
     # sentiment analysis on them.
 
     count2 = 0
-    prefab = 'https://cointelegraph.com'
-    for dt in soup.select('a.post-card-inline__figure-link'):
+    prefab = 'https://cryptonews.com/'
+    for dt in soup.select('a.article__image'):
         if(count2 < count):
             url = dt.get('href')
             count2 = count2 + 1
             #print(url)
             final_url = prefab + url
             #print(final_url)
-            text3 = CoinTelegraph(final_url)
+            text3 = CryptoNew(final_url)
             result3 = sentiment(text3)
             print(result3[0])
             print(result3[1])

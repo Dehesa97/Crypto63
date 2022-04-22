@@ -48,12 +48,12 @@ def CoinMarketCal():
     return textArray1
 
 
-def CryptoNew():
+def CryptoNew(url):
 #Scraping from CryptoNews. The scrapping is not perfect ao it needs refining.
 
     from urllib.request import Request, urlopen
     from bs4 import BeautifulSoup as soup
-    url = 'https://cryptonews.com/news/bitcoin-and-ethereum-reverse-gains-doge-outperforms.htm'
+    #url = 'https://cryptonews.com/news/bitcoin-and-ethereum-reverse-gains-doge-outperforms.htm'
     result = requests.get(url)
     doc = BeautifulSoup(result.text, "html.parser")
     page = doc.find(attrs={"class" : "article-single__content category_contents_details"})
