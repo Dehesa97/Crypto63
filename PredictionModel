@@ -1,0 +1,3 @@
+import pandas as pd
+df = pd.read_csv('https://raw.githubusercontent.com/Dehesa97/Web-Scrapping/8c403cdc9562c4b7dd53b8604e48d54de2cef9a8/data.csv')
+df.head()
