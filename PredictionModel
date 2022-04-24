@@ -207,3 +207,11 @@ df5 = df5.rename(columns = {"BITCOIN_NE.text_COUNT_last1days": "no. articles", "
 
 #remove duplicates
 df5 = df5.drop_duplicates(subset=['date'], keep='first')
+
+
+df5['positive'] = 0
+df5['negative'] = 0
+
+dataToModel = df5[[ "open", "close", "volume", "market_cap", "positive", "negative","nasdaq change", "change"]]
+dataToModel.head()
+
