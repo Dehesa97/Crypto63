@@ -145,20 +145,18 @@ print("testing accuracy:", (len(right)/len(testing)) * 100)
 
 
 """
-df_X_s = ss.transform(xx) #old transformers
-df_y_m = mm.transform(yy) #old transformers
+df_X_s = standard.transform(dataToModel) #old transformers
+
 
 df_X_s = Variable(torch.Tensor(df_X_s)) #converting to Tensors
-df_y_m = Variable(torch.Tensor(df_y_m))
-#reshaping the dataset
 df_X_s = torch.reshape(df_X_s, (df_X_s.shape[0], 1, df_X_s.shape[1]))
 
-train_predict = lstm1(df_X_s)#forward pass
+train_predict = prediction(df_X_s)#forward pass
 data_predict = train_predict.data.numpy() #numpy conversion
 dataY_plot = df_y_m.data.numpy()
 
-data_predict = mm.inverse_transform(data_predict) #reverse transformation
-dataY_plot = mm.inverse_transform(dataY_plot)
+data_predict = min.inverse_transform(data_predict) #reverse transformation
+
 
 """
 
