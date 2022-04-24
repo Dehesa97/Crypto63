@@ -44,13 +44,15 @@ def selenium_CoinTelegraph():
     count = 0
     for dt in soup.select('time.post-card-inline__date') :
       date_time = dt.get('datetime')
-      if (date_time == d):
+      if (date_time == "2022-04-22"):
        count = count + 1
        #print(date_time)
 
     # Takes the url links of the articles taken today and they are passed to the 'CoinTelegraph' functions and performs
     # sentiment analysis on them.
-
+    counterArray=[]
+    counterP = 0
+    counterN = 0
     count2 = 0
     prefab = 'https://cointelegraph.com'
     for dt in soup.select('a.post-card-inline__figure-link'):
@@ -65,7 +67,15 @@ def selenium_CoinTelegraph():
             print(result3[0])
             print(result3[1])
             print(result3[2])
+            counterP = counterP + result3[0]
+            counterN = counterN + result3[1]
 
+    counterArray.append(counterP)
+    counterArray.append(counterN)
+
+    print(counterP)
+    print(counterN)
+    return counterArray
 
 
 def selenium_CryptoNews():
@@ -134,4 +144,4 @@ def selenium_CryptoNews():
 
 #--------------------------------------
 #selenium_CoinTelegraph()
-selenium_CryptoNews()
+#selenium_CryptoNews()
