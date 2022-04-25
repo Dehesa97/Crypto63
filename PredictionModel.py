@@ -3,7 +3,8 @@ import OpenBlender
 from io import StringIO
 import json
 import web_scrapping
-from selenium1 import selenium_CoinTelegraph
+from auto_webscrapping import Auto_CoinTelegraph
+from auto_webscrapping import Auto_CryptoNews
 
 import pandas as pd
 df = pd.read_csv('https://raw.githubusercontent.com/Dehesa97/Web-Scrapping/8c403cdc9562c4b7dd53b8604e48d54de2cef9a8/data.csv')
@@ -126,11 +127,8 @@ plt.figure(figsize=(10,6)) #plotting
 plt.plot(dataY_plot, label='Real Change', color='red') #actual plot
 plt.plot(data_predict, label='Predicted Change', color='green') #predicted plot
 plt.title('Prediction')
-print('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
 plt.legend()
 
-
-print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
 
 df2 = pd.DataFrame(data_predict, columns = ['prediction'])
 df3 = pd.DataFrame(dataY_plot, columns = ['real change'])
@@ -199,10 +197,11 @@ df5 = df5.rename(columns = {"BITCOIN_NE.text_COUNT_last1days": "no. articles", "
 #remove duplicates
 df5 = df5.drop_duplicates(subset=['date'], keep='first')
 
-selenium_instance = selenium_CoinTelegraph()
+web_scrapingInstance = Auto_CoinTelegraph()
+web_scrapingInstance2 = Auto_CryptoNews()
 
-df5['positive'] = selenium_instance[0]
-df5['negative'] = selenium_instance[1]
+df5['positive'] = web_scrapingInstance[0] + web_scrapingInstance2[0]
+df5['negative'] = web_scrapingInstance[1] + web_scrapingInstance2[1]
 
 dataToModel = df5[[ "open", "close", "volume", "market_cap", "positive", "negative","nasdaq change", "change"]]
 dataToModel.head()
