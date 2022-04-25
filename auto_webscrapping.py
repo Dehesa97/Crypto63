@@ -11,21 +11,6 @@ from datetime import date
 #----------Programming Selenium on CoinTelegraph-----------------------------------------------
 def Auto_CoinTelegraph():
 
-    #current_date = datetime.today().strftime('%Y-%m-%d')
-    #Point to the location of the chrome.exe file
-    #options = webdriver.ChromeOptions()
-    #options.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-
-    #Point to the location of the chromedriver.exe file
-    #PATH = r"C:\Users\Andre\Downloads\chromedriver_win32\chromedriver.exe"
-    #driver = webdriver.Chrome(chrome_options = options, executable_path =PATH)
-
-    #driver.maximize_window()
-
-    #driver.get("https://cointelegraph.com/tags/bitcoin")
-    #time.sleep(10)
-
-    #page_source = driver.page_source
     from urllib.request import Request, urlopen
     from bs4 import BeautifulSoup as soup
     url = 'https://cointelegraph.com/tags/bitcoin'
@@ -65,38 +50,25 @@ def Auto_CoinTelegraph():
             #print(final_url)
             text3 = CoinTelegraph(final_url)
             result3 = sentiment(text3)
-            print(result3[0])
-            print(result3[1])
-            print(result3[2])
+            #print(result3[0])
+            #print(result3[1])
+            #print(result3[2])
             counterP = counterP + result3[0]
             counterN = counterN + result3[1]
 
     counterArray.append(counterP)
     counterArray.append(counterN)
 
+    print('CoinTelegraph')
     print('Positive articles: ', counterP)
     print('Negative articles: ', counterN)
+    print('\n')
     return counterArray
 
 
 def Auto_CryptoNews():
 
-    #current_date = datetime.today().strftime('%Y-%m-%d')
 
-    #Point to the location of the chrome.exe file
-    #options = webdriver.ChromeOptions()
-    #options.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-
-    #Point to the location of the chromedriver.exe file
-    #PATH = r"C:\Users\Andre\Downloads\chromedriver_win32\chromedriver.exe"
-    #driver = webdriver.Chrome(chrome_options = options, executable_path =PATH)
-
-    #driver.maximize_window()
-
-    #driver.get("https://cryptonews.com/news/bitcoin-news/")
-    #time.sleep(10)
-
-    #page_source = driver.page_source
     from urllib.request import Request, urlopen
     from bs4 import BeautifulSoup as soup
     url = 'https://cryptonews.com/news/bitcoin-news/'
@@ -110,7 +82,6 @@ def Auto_CryptoNews():
     #Looks for articles published on the very same day so if its 12/2/2022 it will look for articles published on 11/2/2022.
     today = date.today()
     d = today.strftime("%Y-%m-%d")
-    print(d)
     page = soup.find(attrs={"class" : "category_contents_details"})
     #print('--------------------------------------')
     #print(page.text)
@@ -141,17 +112,19 @@ def Auto_CryptoNews():
             #print(final_url)
             text3 = CryptoNew(final_url)
             result3 = sentiment(text3)
-            print(result3[0])
-            print(result3[1])
-            print(result3[2])
+            #print(result3[0])
+            #print(result3[1])
+            #print(result3[2])
             counterP = counterP + result3[0]
             counterN = counterN + result3[1]
 
     counterArray.append(counterP)
     counterArray.append(counterN)
 
+    print('CryptoNews')
     print('Positive articles: ', counterP)
     print('Negative articles: ', counterN)
+    print('\n')
     return counterArray
 
 

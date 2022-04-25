@@ -28,7 +28,7 @@ def CoinMarketCal():
     textArray1 = []
     for paragraph in page.find_all("p") :
         textArray1.append(paragraph.text)
-        print(paragraph.text)
+        #print(paragraph.text)
     return textArray1
 
 def CryptoNew(url):
@@ -41,7 +41,7 @@ def CryptoNew(url):
     textArray1 = []
     for paragraph in page.find_all("p") :
         textArray1.append(paragraph.text)
-        print(paragraph.text)
+        #print(paragraph.text)
     return textArray1
 
 def CoinTelegraph(url):
@@ -59,7 +59,7 @@ def CoinTelegraph(url):
     textArray1 = []
     for paragraph in page.find_all("p") :
         textArray1.append(paragraph.text)
-        print(paragraph.text)
+        #print(paragraph.text)
     return textArray1
 
 #-------Connor Code---------------------------------------

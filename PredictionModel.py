@@ -218,7 +218,7 @@ data_predict = train_predict.data.numpy() #numpy conversion
 data_predict = min.inverse_transform(data_predict) #reverse transformation
 
 
-print(type(data_predict))
-print(data_predict)
+#print(type(data_predict))
+print('Prediction: ',data_predict)
 
 plt.show()
